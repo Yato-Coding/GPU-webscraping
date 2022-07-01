@@ -1,12 +1,17 @@
-import RTX_3070_scrape
 from bs4 import BeautifulSoup
 import requests
 import re
 from datetime import datetime
+from pathlib import Path
+
+#ask user what GPU they want to search for
+user_input = input("What kind of GPU do you want to search for? ")
+gpu_choice = user_input.replace(" ", "+")
 
 
-url = "https://www.alternate.de/listing.xhtml?q=AMD+RADEON+RX+6700+XT&s=default&filter_-2=true&filter_2203=AMD+Radeon+RX+6700+XT"
+url = "https://www.alternate.de/listing.xhtml?q=" + gpu_choice + "&s=default&filter_-2=true&filter_416=170"
 
+print(url)
 # Get Page
 page = requests.get(url).text
 document = BeautifulSoup(page, "html.parser")
@@ -48,7 +53,7 @@ sorted_list = sorted(zip(prices, names, links))
 x = 0
 
 
-file = open("RX 6700 XT.txt", "w")
+file = open(gpu_choice.replace("+", "_") + ".txt", "w")
 file.write(str(datetime.today()) + "\n")
 
 while (continue_loop):
@@ -74,4 +79,3 @@ while (continue_loop):
    else:
        continue_loop = False
        file.close()
-
